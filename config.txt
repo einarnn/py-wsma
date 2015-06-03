@@ -1,0 +1,13 @@
+ip http authentication local
+ip http secure-server
+ip http secure-trustpoint demoTP
+!
+wsma agent exec
+  profile WSMA
+!
+wsma agent config
+  profile WSMA
+!
+!
+wsma profile listener WSMA
+  transport https path /wsma_secure
