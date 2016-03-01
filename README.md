@@ -8,5 +8,3 @@ What we have here is:
 * app.py -- A simple REST server built using Flask (at the same time as learning how to use Flask)
 * WSMA.py -- A very simple and incomplete module to use WSMA to do some simple tasks.
 * config.txt -- The (incomplete) config necessary on an IOS/IOS-XE box to enable WSMA with an HTTPS transport.
-
-This code and config sample is probably not ready to use.
