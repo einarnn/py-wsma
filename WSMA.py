@@ -39,6 +39,22 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  </SOAP:Body>
 </SOAP:Envelope>""")
 
+config_block_template = Template("""<?xml version="1.0" encoding="UTF-8"?>
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" 
+xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <SOAP:Body>
+  <request xmlns="urn:cisco:wsma-config" correlator="{{CORRELATOR}}">
+   <configApply details="all">
+    <config-data>
+     <cli-config-data-block>{{CONFIG_CMDS}}</cli-config-data-block>
+    </config-data>
+   </config>
+  </request>
+ </SOAP:Body>
+</SOAP:Envelope>""")
+
 def form_input_exec_data_simple(exec_cmd, correlator):
     """
     Create a simple WSMA exec request payload from a single CLI.
@@ -51,6 +67,12 @@ def form_input_config_data_simple(config_cmd, correlator):
     """
     return config_template.render(CONFIG_CMD=config_cmd, CORRELATOR=correlator)
 
+def form_input_config_data_block(config_cmd_block, correlator):
+    """
+    Create a simple WSMA config request payload from a single CLI.
+    """
+    return config_block_template.render(CONFIG_CMDS=config_cmd_block, CORRELATOR=correlator)
+
 def form_http_request(device_addr_or_fqdn,exec_data):
     """
     Create a WSMA POST request from the IP or FQDN of the device plus the payload.
@@ -61,7 +83,7 @@ def form_https_request(device_addr_or_fqdn,exec_data):
     """
     Create a WSMA POST request from the IP or FQDN of the device plus the payload.
     """
-    return urllib2.Request('https://'+device_addr_or_fqdn+'/wsma', exec_data)
+    return urllib2.Request('https://'+device_addr_or_fqdn+'/wsma_secure', exec_data)
 
 def extract_exec_response_simple(xml_from_wsma):
     """

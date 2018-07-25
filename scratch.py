@@ -8,8 +8,10 @@ import json
 password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
 
 # Add the username and password.
-top_level_url = 'http://10.10.10.110/'
-password_mgr.add_password(None, top_level_url, 'cisco', 'cisco123')
+top_level_url1 = 'https://192.168.1.76/'
+top_level_url2 = 'http://192.168.1.76/'
+password_mgr.add_password(None, top_level_url1, 'einarnn', 'einarnn')
+password_mgr.add_password(None, top_level_url2, 'einarnn', 'einarnn')
 
 # Create the handler.
 handler = urllib2.HTTPBasicAuthHandler(password_mgr)
@@ -22,8 +24,8 @@ urllib2.install_opener(opener)
 
 # Do a 'show arp'
 req = WSMA.form_http_request(
-   '10.10.10.110',
-   WSMA.form_input_exec_data_simple('show arp', 'exec_test'))
+   '192.168.1.76',
+   WSMA.form_input_exec_data_simple('show version', 'exec_test'))
 
 # Do a 'hostname Router1'
 # req = WSMA.form_http_request(
@@ -31,6 +33,7 @@ req = WSMA.form_http_request(
 #     WSMA.form_input_config_data_simple('hostname Router1', 'config_test'))
 
 resp = urllib2.urlopen(req)
+print(resp.read())
 
 #
 # Now let's parse that response object
